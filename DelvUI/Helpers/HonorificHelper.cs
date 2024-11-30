@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 using Lumina.Data.Parsing.Uld;
 using System;
 using System.Linq;
+using System.Numerics;
 
 namespace DelvUI.Helpers
 {
@@ -14,6 +15,9 @@ namespace DelvUI.Helpers
     {
         public string Title = "";
         public bool IsPrefix = false;
+        public bool IsOriginal = false;
+        public Vector3? Color = new Vector3(0f, 0f, 0f);
+        public Vector3? Glow = new Vector3(0f, 0f, 0f);
     }
 
     internal class HonorificHelper
@@ -54,9 +58,9 @@ namespace DelvUI.Helpers
 
         public TitleData? GetTitle(IGameObject? actor)
         {
-            if (_getCharacterTitle == null || 
-                actor == null || 
-                actor.ObjectKind != ObjectKind.Player || 
+            if (_getCharacterTitle == null ||
+                actor == null ||
+                actor.ObjectKind != ObjectKind.Player ||
                 actor is not ICharacter character)
             {
                 return null;

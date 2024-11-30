@@ -73,6 +73,59 @@ namespace DelvUI.Interface.GeneralElements
             DrawLabel(text, pos, size, Color(actor));
         }
 
+        public void DrawTitle(string text, Vector2 pos, Vector2 size, PluginConfigColor color, PluginConfigColor backgroundColor, float? alpha = null)
+        {
+            if (!Config.Enabled) { return; }
+
+            PluginConfigColor fillColor = color;
+            PluginConfigColor shadowColor = backgroundColor;
+            PluginConfigColor outlineColor = backgroundColor;
+
+            if (alpha.HasValue)
+            {
+                fillColor = fillColor.WithAlpha(alpha.Value);
+                shadowColor = shadowColor.WithAlpha(alpha.Value);
+                outlineColor = outlineColor.WithAlpha(alpha.Value);
+            }
+
+            Action<ImDrawListPtr> action = (ImDrawListPtr drawList) =>
+            {
+                if (Config.ShadowConfig.Enabled)
+                {
+                    DrawHelper.DrawShadowText(text, pos, fillColor.Base, shadowColor.Base, drawList, Config.ShadowConfig.Offset, Config.ShadowConfig.Thickness);
+                }
+
+                if (Config.ShowOutline)
+                {
+                    DrawHelper.DrawOutlinedText(text, pos, fillColor.Base, outlineColor.Base, drawList);
+                }
+
+                if (!Config.ShowOutline && !Config.ShadowConfig.Enabled)
+                {
+                    drawList.AddText(pos, fillColor.Base, text);
+                }
+            };
+
+            DrawHelper.DrawInWindow(ID, pos, size, false, (drawList) =>
+            {
+                if (Config.UseSystemFont())
+                {
+                    ImGui.SetWindowFontScale(Config.GetFontScale());
+                    ImGui.PushFont(UiBuilder.DefaultFont);
+                    action(drawList);
+                    ImGui.PopFont();
+                    ImGui.SetWindowFontScale(1);
+                }
+                else
+                {
+                    using (FontsManager.Instance.PushFont(Config.FontID))
+                    {
+                        action(drawList);
+                    }
+                }
+            });
+        }
+
         public void DrawLabel(string text, Vector2 pos, Vector2 size, PluginConfigColor color, float? alpha = null)
         {
             if (!Config.Enabled) { return; }

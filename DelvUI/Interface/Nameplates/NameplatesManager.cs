@@ -150,13 +150,19 @@ namespace DelvUI.Interface.Nameplates
                     // title
                     string title = info.Title.ToString();
                     bool isTitlePrefix = info.IsPrefixTitle;
+                    bool IsTitleOriginal = true;
+                    Vector3 HonorificTitleColor = new Vector3(0f, 0f, 0f);
+                    Vector3 HonorificTitleGlow = new Vector3(0f, 0f, 0f);
 
                     // Get the title from Honorific, if it exists
                     TitleData? customTitleData = HonorificHelper.Instance?.GetTitle(gameObject);
-                    if (customTitleData != null)
+                    if (customTitleData != null && !customTitleData.IsOriginal)
                     {
                         title = customTitleData.Title;
                         isTitlePrefix = customTitleData.IsPrefix;
+                        IsTitleOriginal = customTitleData.IsOriginal;
+                        if (customTitleData.Color != null) { HonorificTitleColor = (Vector3)customTitleData.Color; }
+                        if (customTitleData.Glow != null) { HonorificTitleGlow = (Vector3)customTitleData.Glow; }
                     }
 
                     // state icon
@@ -184,6 +190,9 @@ namespace DelvUI.Interface.Nameplates
                         name,
                         title,
                         isTitlePrefix,
+                        IsTitleOriginal,
+                        HonorificTitleColor,
+                        HonorificTitleGlow,
                         iconId,
                         order,
                         (ObjectKind)obj->ObjectKind,
@@ -231,6 +240,9 @@ namespace DelvUI.Interface.Nameplates
                     target.Name.ToString(),
                     cachedData?.Title ?? "",
                     cachedData?.IsTitlePrefix ?? true,
+                    cachedData?.IsTitleOriginal ?? true,
+                    cachedData?.HonorificTitleColor ?? new Vector3(0f, 0f, 0f),
+                    cachedData?.HonorificTitleGlow ?? new Vector3(0f, 0f, 0f),
                     cachedData?.NamePlateIconId ?? 0,
                     cachedData?.Order ?? "",
                     target.ObjectKind,
@@ -337,6 +349,9 @@ namespace DelvUI.Interface.Nameplates
         public string Name;
         public string Title;
         public bool IsTitlePrefix;
+        public bool IsTitleOriginal;
+        public Vector3 HonorificTitleColor;
+        public Vector3 HonorificTitleGlow;
         public int NamePlateIconId;
         public string Order;
         public ObjectKind Kind;
@@ -346,12 +361,15 @@ namespace DelvUI.Interface.Nameplates
         public float Distance;
         public bool IgnoreOcclusion;
 
-        public NameplateData(IGameObject? gameObject, string name, string title, bool isTitlePrefix, int namePlateIconId, string order, ObjectKind kind, byte subKind, Vector2 screenPosition, Vector3 worldPosition, float distance, bool ignoreOcclusion = false)
+        public NameplateData(IGameObject? gameObject, string name, string title, bool isTitlePrefix, bool isTitleOriginal, Vector3 honorificTitleColor, Vector3 honorificTitleGlow, int namePlateIconId, string order, ObjectKind kind, byte subKind, Vector2 screenPosition, Vector3 worldPosition, float distance, bool ignoreOcclusion = false)
         {
             GameObject = gameObject;
             Name = name;
             Title = title;
             IsTitlePrefix = isTitlePrefix;
+            IsTitleOriginal = isTitleOriginal;
+            HonorificTitleColor = honorificTitleColor;
+            HonorificTitleGlow = honorificTitleGlow;
             NamePlateIconId = namePlateIconId;
             Order = order;
             Kind = kind;

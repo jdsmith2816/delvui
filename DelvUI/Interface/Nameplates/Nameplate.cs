@@ -74,14 +74,25 @@ namespace DelvUI.Interface.Nameplates
             }
             ));
 
-            // title
+            // title others
             float titleAlpha = _config.RangeConfig.AlphaForDistance(data.Distance, _config.TitleLabelConfig.Color.Vector.W);
             var (titleText, titlePos, titleSize, titleColor) = _titleLabelHud.PreCalculate(origin - swapOffset, barAnchor?.Size, data.GameObject, title: data.Title);
             if (data.Title.Length > 0)
             {
                 drawActions.Add((_config.TitleLabelConfig.StrataLevel, () =>
                 {
-                    _titleLabelHud.DrawLabel(titleText, titlePos, titleSize, titleColor, titleAlpha);
+                    if (!data.IsTitleOriginal)
+                    {
+                        Vector4 color = new Vector4(data.HonorificTitleColor.X, data.HonorificTitleColor.Y, data.HonorificTitleColor.Z, 1.0f);
+                        Vector4 glow = new Vector4(data.HonorificTitleGlow.X, data.HonorificTitleGlow.Y, data.HonorificTitleGlow.Z, 1.0f);
+                        titleColor = new PluginConfigColor(color);
+
+                        _titleLabelHud.DrawTitle(titleText, titlePos, titleSize, titleColor, new PluginConfigColor(glow), titleAlpha);
+                    }
+                    else
+                    {
+                        _titleLabelHud.DrawLabel(titleText, titlePos, titleSize, titleColor, titleAlpha);
+                    }
                 }
                 ));
             }
@@ -319,14 +330,25 @@ namespace DelvUI.Interface.Nameplates
             }
             ));
 
-            // title
+            // title self
             float titleAlpha = _config.RangeConfig.AlphaForDistance(data.Distance, _config.TitleLabelConfig.Color.Vector.W);
             var (titleText, titlePos, titleSize, titleColor) = _titleLabelHud.PreCalculate(origin - swapOffset, barAnchor?.Size, data.GameObject, title: data.Title);
             if (data.Title.Length > 0)
             {
                 drawActions.Add((_config.TitleLabelConfig.StrataLevel, () =>
                 {
-                    _titleLabelHud.DrawLabel(titleText, titlePos, titleSize, titleColor, titleAlpha);
+                    if (!data.IsTitleOriginal)
+                    {
+                        Vector4 color = new Vector4(data.HonorificTitleColor.X, data.HonorificTitleColor.Y, data.HonorificTitleColor.Z, 1.0f);
+                        Vector4 glow = new Vector4(data.HonorificTitleGlow.X, data.HonorificTitleGlow.Y, data.HonorificTitleGlow.Z, 1.0f);
+                        titleColor = new PluginConfigColor(color);
+
+                        _titleLabelHud.DrawTitle(titleText, titlePos, titleSize, titleColor, new PluginConfigColor(glow), titleAlpha);
+                    }
+                    else
+                    {
+                        _titleLabelHud.DrawLabel(titleText, titlePos, titleSize, titleColor, titleAlpha);
+                    }
                 }
                 ));
             }
