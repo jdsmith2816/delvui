@@ -674,7 +674,8 @@ namespace DelvUI.Interface.PartyCooldowns
             [25867] = NewData(25867, JobIDs.SCH, 86, 60, 10, 80, 2, PartyCooldownEnabled.PartyFrames), // protraction
             [25868] = NewData(25868, JobIDs.SCH, 90, 120, 20, 80, 2, PartyCooldownEnabled.PartyFrames), // expedient
             [7434] = NewData(7434, JobIDs.SCH, 62, 45, 1, 50, 4, PartyCooldownEnabled.PartyFrames), // excogitation
-            [37014] = NewData(37014, JobIDs.SCH, 100, 180, 20, 80, 2, PartyCooldownEnabled.PartyFrames), // seraphism
+            [16545] = NewData(16545, JobIDs.SCH, 80, 120, 22, 80, 2, PartyCooldownEnabled.PartyFrames), // summon seraph
+            [37014] = NewData(37014, JobIDs.SCH, 100, 180, 20, 80, 2, PartyCooldownEnabled.PartyFrames), // seraphism            
 
             // WHM
             [16536] = NewData(16536, JobIDs.WHM, 80, 120, 20, 80, 2, PartyCooldownEnabled.PartyFrames), // temperance
@@ -704,7 +705,7 @@ namespace DelvUI.Interface.PartyCooldowns
             // lol?
 
             // VPR
-            // lol?
+            // lol?           
 
             // NIN
             [2248] = NewData(2248, JobIDs.NIN, 15, 120, 20, 30, 3, PartyCooldownEnabled.PartyFrames, disabledAfterLevel: 68), // mug
@@ -716,11 +717,14 @@ namespace DelvUI.Interface.PartyCooldowns
             // DRG
             [3557] = NewData(3557, JobIDs.DRG, 52, 120, 20, 30, 3, PartyCooldownEnabled.PartyCooldowns), // battle litany
             [85] = NewData(85, JobIDs.DRG, 30, 60, 20, 10, 3, PartyCooldownEnabled.PartyFrames), // lance charge
+            [3555] = NewData(3555, JobIDs.DRG, 60, 60, 20, 10, 3, PartyCooldownEnabled.PartyFrames), // geirskogul
+            [96] = NewData(96, JobIDs.DRG, 50, 120, 0, 10, 3, PartyCooldownEnabled.PartyFrames), // dragonfire dive
 
             // MNK
             [65] = NewData(65, JobIDs.MNK, 42, 90, 15, 50, 2, PartyCooldownEnabled.PartyFrames), // mantra
             [7396] = NewData(7396, JobIDs.MNK, 70, 120, 20, 90, 3, PartyCooldownEnabled.PartyCooldowns), // brotherhood
             [7395] = NewData(7395, JobIDs.MNK, 68, 60, 20, 10, 3, PartyCooldownEnabled.PartyFrames), // riddle of fire
+            [25766] = NewData(25766, JobIDs.MNK, 72, 90, 15, 10, 3, PartyCooldownEnabled.PartyFrames), // riddle of wind
             [7394] = NewData(7394, JobIDs.MNK, 64, 120, 15, 20, 4, PartyCooldownEnabled.PartyFrames), // riddle of earth
 
             // RPR
@@ -743,12 +747,14 @@ namespace DelvUI.Interface.PartyCooldowns
             // MCH
             [16889] = NewData(16889, JobIDs.MCH, 56, 90, 15, 70, 2, PartyCooldownEnabled.PartyFrames, "90-120"), // tactician
             [2887] = NewData(2887, JobIDs.MCH, 62, 120, 10, 70, 2, PartyCooldownEnabled.PartyFrames), // dismantle
+            [7414] = NewData(7414, JobIDs.MCH, 66, 120, 1, 10, 3, PartyCooldownEnabled.PartyFrames), // barrel stabilizer
 
             // CASTER -------------------------------------------------------------------------------------------------
             [7560] = NewData(7560, JobRoles.DPSCaster, 8, 90, 10, 100, 1, PartyCooldownEnabled.PartyFrames), // addle
 
             // RDM
             [25857] = NewData(25857, JobIDs.RDM, 86, 120, 10, 70, 2, PartyCooldownEnabled.PartyCooldownsAndPartyFrames), // magick barrier
+            [7521] = NewData(7521, JobIDs.RDM, 60, 110, 30, 10, 3, PartyCooldownEnabled.PartyFrames), // manafication
             [7520] = NewData(7520, JobIDs.RDM, 58, 120, 20, 30, 3, PartyCooldownEnabled.PartyCooldowns), // embolden
 
             // SMN
@@ -760,7 +766,7 @@ namespace DelvUI.Interface.PartyCooldowns
             [157] = NewData(157, JobIDs.BLM, 38, 120, 20, 10, 4, PartyCooldownEnabled.PartyFrames), // manaward
 
             // PCT
-            [35349] = NewData(35349, JobIDs.PCT, 70, 120, 20, 30, 3, PartyCooldownEnabled.PartyCooldowns), // scenic muse
+            [35349] = NewData(35349, JobIDs.PCT, 70, 120, 20, 30, 3, PartyCooldownEnabled.PartyCooldowns), // scenic muse            
             [34685] = NewData(34685, JobIDs.PCT, 10, 120, 10, 10, 4, PartyCooldownEnabled.PartyFrames), // tempera coat
 
             // MULTI-ROLE  -------------------------------------------------------------------------------------------------
