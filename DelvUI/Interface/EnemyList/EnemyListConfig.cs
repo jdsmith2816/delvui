@@ -34,6 +34,10 @@ namespace DelvUI.Interface.EnemyList
         [Order(4)]
         public bool Preview = false;
 
+        [Checkbox("Hide Current Target", isMonitored = true)]
+        [Order(5)]
+        public bool HideCurrentTarget = false;
+
         [Combo("Growth Direction", "Down", "Up", spacing = true)]
         [Order(20)]
         public EnemyListGrowthDirection GrowthDirection = EnemyListGrowthDirection.Down;

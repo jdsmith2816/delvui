@@ -122,22 +122,24 @@ namespace DelvUI.Interface.EnemyList
         {
             if (!Config.Enabled) { return; }
 
-            _helper.Update();
+            _helper.Update(Config.HideCurrentTarget, Config.Preview);
 
             int count = Math.Min(MaxEnemyCount, Config.Preview ? MaxEnemyCount : _helper.EnemyCount);
             uint fakeMaxHp = 100000;
 
             ICharacter? mouseoverTarget = null;
             bool hovered = false;
-
-            for (int i = 0; i < count; i++)
+            
+            for (int i = 0, j = 0; i < count && j < _helper.EnemiesData.Count; i++, j++)
             {
                 // hp bar
-                ICharacter? character = Config.Preview ? null : Plugin.ObjectTable.SearchById((uint)_helper.EnemiesData.ElementAt(i).ObjectId) as ICharacter;
+                ICharacter? character = Config.Preview ? null : Plugin.ObjectTable.SearchById(_helper.EnemiesData.ElementAt(j).ObjectId) as ICharacter;
+
+                if (character == null && !Config.Preview) { i--; continue; }
 
                 uint currentHp = Config.Preview ? (uint)(_previewValues[i] * fakeMaxHp) : character?.CurrentHp ?? fakeMaxHp;
                 uint maxHp = Config.Preview ? fakeMaxHp : character?.MaxHp ?? fakeMaxHp;
-                int enmityLevel = Config.Preview ? Math.Max(4, i + 1) : _helper.EnemiesData.ElementAt(i).EnmityLevel;
+                int enmityLevel = Config.Preview ? Math.Max(4, i + 1) : _helper.EnemiesData.ElementAt(j).EnmityLevel;
 
                 if (Configs.HealthBar.SmoothHealthConfig.Enabled)
                 {
@@ -220,7 +222,7 @@ namespace DelvUI.Interface.EnemyList
                 {
                     var parentPos = Utils.GetAnchoredPosition(origin + pos, -Configs.HealthBar.Size, Configs.EnmityIcon.HealthBarAnchor);
                     var iconPos = Utils.GetAnchoredPosition(parentPos + Configs.EnmityIcon.Position, Configs.EnmityIcon.Size, Configs.EnmityIcon.Anchor);
-                    int enmityIndex = Config.Preview ? Math.Min(3, i) : _helper.EnemiesData.ElementAt(i).EnmityLevel - 1;
+                    int enmityIndex = Config.Preview ? Math.Min(3, j) : _helper.EnemiesData.ElementAt(j).EnmityLevel - 1;
 
                     AddDrawAction(Configs.EnmityIcon.StrataLevel, () =>
                     {
@@ -301,8 +303,8 @@ namespace DelvUI.Interface.EnemyList
                 });
 
                 // castbar
-                EnemyListCastbarHud castbar = _castbarHud[i];
-                castbar.EnemyListIndex = i;
+                EnemyListCastbarHud castbar = _castbarHud[j];
+                castbar.EnemyListIndex = j;
 
                 var castbarPos = Utils.GetAnchoredPosition(origin + pos, -Configs.HealthBar.Size, Configs.CastBar.HealthBarAnchor);
                 AddDrawAction(Configs.CastBar.StrataLevel, () =>

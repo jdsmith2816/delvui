@@ -17,9 +17,30 @@ namespace DelvUI.Interface.EnemyList
         private List<EnemyListData> _enemiesData = new List<EnemyListData>();
         public IReadOnlyCollection<EnemyListData> EnemiesData => _enemiesData.AsReadOnly();
         public int EnemyCount => _enemiesData.Count;
+        public bool IsCurrentTarget(ulong objectId)
+            {
+                var target = Plugin.TargetManager.Target;
+                return target != null && target.GameObjectId == objectId;
+            }
 
-        public void Update()
+        private List<EnemyListData> GeneratePreviewData()
         {
+            List<EnemyListData> previewData = new List<EnemyListData>();
+            for (int i = 0; i < 8; i++)
+            {
+                previewData.Add(new EnemyListData((ulong)i, i, Math.Min(4, i + 1)));
+            }
+            return previewData;
+        }
+
+        public void Update(bool hideCurrentTarget, bool preview)
+        {
+            if (preview)
+            {
+                _enemiesData = GeneratePreviewData();
+                return;
+            }
+
             UIModule* uiModule = StructsFramework.Instance()->GetUIModule();
             if (uiModule != null)
             {
@@ -42,14 +63,16 @@ namespace DelvUI.Interface.EnemyList
                 int index = 8 + (i * 6);
                 if (numberArrayData->AtkArrayData.Size <= index) { break; }
 
-                int objectId = numberArrayData->IntArray[index];
+                ulong objectId = (ulong)numberArrayData->IntArray[index];
+                if (hideCurrentTarget && IsCurrentTarget(objectId)) { continue; }
+                
                 int? letter = GetEnemyLetter(objectId, i);
                 int enmityLevel = GetEnmityLevelForIndex(i);
                 _enemiesData.Add(new EnemyListData(objectId, letter, enmityLevel));
             }
         }
 
-        private int? GetEnemyLetter(int objectId, int index)
+        private int? GetEnemyLetter(ulong objectId, int index)
         {
             if (_raptureAtkModule == null || _raptureAtkModule->AtkModule.AtkArrayDataHolder.StringArrayCount <= EnemyListNamesIndex)
             {
@@ -95,11 +118,11 @@ namespace DelvUI.Interface.EnemyList
 
     public struct EnemyListData
     {
-        public int ObjectId;
+        public ulong ObjectId;
         public int? LetterIndex;
         public int EnmityLevel;
 
-        public EnemyListData(int objectId, int? letterIndex, int enmityLevel)
+        public EnemyListData(ulong objectId, int? letterIndex, int enmityLevel)
         {
             ObjectId = objectId;
             LetterIndex = letterIndex;
